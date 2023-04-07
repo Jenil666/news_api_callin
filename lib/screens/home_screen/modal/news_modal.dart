@@ -26,22 +26,22 @@ class Article {
   Article({
     required this.source,
     this.author,
-    this.title,
-    required this.description,
+    required this.title,
+    this.description,
     required this.url,
-    required this.urlToImage,
+    this.urlToImage,
     required this.publishedAt,
-    required this.content,
+    this.content,
   });
 
   Source source;
   String? author;
-  String? title;
-  String description;
+  String title;
+  String? description;
   String url;
-  String urlToImage;
+  String? urlToImage;
   DateTime publishedAt;
-  String content;
+  String? content;
 
   factory Article.fromJson(Map<String, dynamic> json) => Article(
     source: Source.fromJson(json["source"]),
@@ -68,44 +68,20 @@ class Article {
 
 class Source {
   Source({
-    required this.id,
+    this.id,
     required this.name,
   });
 
-  Id id;
-  Name name;
+  String? id;
+  String name;
 
   factory Source.fromJson(Map<String, dynamic> json) => Source(
-    id: idValues.map[json["id"]]!,
-    name: nameValues.map[json["name"]]!,
+    id: json["id"],
+    name: json["name"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": idValues.reverse[id],
-    "name": nameValues.reverse[name],
+    "id": id,
+    "name": name,
   };
-}
-
-enum Id { THE_WALL_STREET_JOURNAL }
-
-final idValues = EnumValues({
-  "the-wall-street-journal": Id.THE_WALL_STREET_JOURNAL
-});
-
-enum Name { THE_WALL_STREET_JOURNAL }
-
-final nameValues = EnumValues({
-  "The Wall Street Journal": Name.THE_WALL_STREET_JOURNAL
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }
